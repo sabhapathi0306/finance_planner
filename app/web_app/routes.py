@@ -20,10 +20,9 @@ def home():
         if 'loggedin' in session and session['loggedin']:
             # message = f"Hi {session['username']}"
             username=session['username']
-            message = f"Hi {username}!!"
-            flash(message, 'success')
             email = session.get('email', None)
             get_data, status = details.get_details(email)
+            get_data['email'] = session['email']
             expenses = details.get_expenses(session['email'])
             if len(expenses)==0:
                 expenses = list('None')
@@ -31,16 +30,15 @@ def home():
                 'account_details': get_data,
                 'expenses': expenses
             }
-            print(details)
             return render_template('index.html', logged_in=username,
                                 username=username, details=details)
 
         else:
             message = 'Please login !!'
-            print(message)
             return render_template('index.html')
     except Exception:
-        raise
+        message = 'Something went wrong please try again !!'
+        return render_template('index.html')
 
 
 
