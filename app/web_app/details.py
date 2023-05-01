@@ -40,6 +40,7 @@ class Details:
                 details_dict |= status_dict
                 return details_dict, True
         except Exception:
+            raise
             self.db_connection.close()
             return {},False
         
