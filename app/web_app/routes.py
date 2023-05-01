@@ -19,16 +19,12 @@ def home():
         details = Details()
         if session is not None and 'loggedin' in session:
             # message = f"Hi {session['username']}"
+            return render_template('<h2>HELLO<h2>')
             username=session['username']
             message = f"Hi {username}!!"
             flash(message, 'success')
             email = session.get('email', None)
-            if email is None:
-                return render_template('index.html')
-            
             get_data = details.get_details(email)
-            if not get_data:
-                return render_template('index.html')
             get_data['email'] = email
             expenses = details.get_expenses(session['email'])
             if len(expenses)==0:
