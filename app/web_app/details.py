@@ -40,8 +40,6 @@ class Details:
                 details_dict.update(status_dict)
                 return details_dict, True
         except Exception:
-            raise
-            self.db_connection.close()
             return {},False
         
     def get_expenses(self, email):
