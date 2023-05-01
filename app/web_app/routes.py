@@ -17,9 +17,8 @@ def home():
     # Define variables for the navigation bar
     try:
         details = Details()
-        if session is not None and 'loggedin' in session:
+        if 'loggedin' in session and session['loggedin']:
             # message = f"Hi {session['username']}"
-            return render_template('<h2>HELLO<h2>')
             username=session['username']
             message = f"Hi {username}!!"
             flash(message, 'success')
@@ -38,6 +37,7 @@ def home():
                                 username=username, details=details)
 
         # Render the home.html template and pass the variables to it
+        print('not ye')
         return render_template('index.html')
     except Exception:
         raise
