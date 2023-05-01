@@ -37,7 +37,7 @@ class Details:
                 status_val_tup = self.db_cursor.fetchone()
                 status_dict_tup= ('status', 'password')
                 status_dict = {status_dict_tup[i]: status_val_tup[i] for i in range(len(status_val_tup))}
-                details_dict |= status_dict
+                details_dict.update(status_dict)
                 return details_dict, True
         except Exception:
             raise
