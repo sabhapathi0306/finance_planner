@@ -15,33 +15,36 @@ app.secret_key = '0987654321fyndproject'
 @app.route('/')
 def home():
     # Define variables for the navigation bar
-    details = Details()
-    if session is not None and 'loggedin' in session:
-        # message = f"Hi {session['username']}"
-        username=session['username']
-        message = f"Hi {username}!!"
-        flash(message, 'success')
-        email = session.get('email', None)
-        if email is None:
-            return render_template('index.html')
-          
-        get_data = details.get_details(email)
-        if not get_data:
-            return render_template('index.html')
-        get_data['email'] = email
-        expenses = details.get_expenses(session['email'])
-        if len(expenses)==0:
-            expenses = list('None')
-        details = {
-            'account_details': get_data,
-            'expenses': expenses
-        }
-        print(details)
-        return render_template('index.html', logged_in=username,
-                            username=username, details=details)
+    try:
+        details = Details()
+        if session is not None and 'loggedin' in session:
+            # message = f"Hi {session['username']}"
+            username=session['username']
+            message = f"Hi {username}!!"
+            flash(message, 'success')
+            email = session.get('email', None)
+            if email is None:
+                return render_template('index.html')
+            
+            get_data = details.get_details(email)
+            if not get_data:
+                return render_template('index.html')
+            get_data['email'] = email
+            expenses = details.get_expenses(session['email'])
+            if len(expenses)==0:
+                expenses = list('None')
+            details = {
+                'account_details': get_data,
+                'expenses': expenses
+            }
+            print(details)
+            return render_template('index.html', logged_in=username,
+                                username=username, details=details)
 
-    # Render the home.html template and pass the variables to it
-    return render_template('index.html')
+        # Render the home.html template and pass the variables to it
+        return render_template('index.html')
+    except Exception:
+        raise
 
 
 
