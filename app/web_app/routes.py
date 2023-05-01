@@ -23,8 +23,11 @@ def home():
             message = f"Hi {username}!!"
             flash(message, 'success')
             email = session.get('email', None)
-            get_data = details.get_details(email)
-            get_data['email'] = email
+            get_data, status = details.get_details(email)
+            if status:
+                get_data['email'] = email
+            else:
+                 return render_template('index.html')
             expenses = details.get_expenses(session['email'])
             if len(expenses)==0:
                 expenses = list('None')
@@ -36,9 +39,10 @@ def home():
             return render_template('index.html', logged_in=username,
                                 username=username, details=details)
 
-        # Render the home.html template and pass the variables to it
-        print('not ye')
-        return render_template('index.html')
+        else:
+            message = 'Please login !!'
+            print(message)
+            return render_template('index.html')
     except Exception:
         raise
 
