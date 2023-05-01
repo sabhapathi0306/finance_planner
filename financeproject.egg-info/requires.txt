@@ -1,6 +1,0 @@
-beautifulsoup4
-db-sqlite3
-flask
-numpy
-pandas
-psycopg2
