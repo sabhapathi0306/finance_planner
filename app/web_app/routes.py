@@ -24,10 +24,6 @@ def home():
             flash(message, 'success')
             email = session.get('email', None)
             get_data, status = details.get_details(email)
-            if status:
-                get_data['email'] = email
-            else:
-                 return render_template('index.html')
             expenses = details.get_expenses(session['email'])
             if len(expenses)==0:
                 expenses = list('None')
