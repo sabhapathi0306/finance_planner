@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>My Form</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+        background-color: #f2f2f2;
+      }
+
+      h1 {
+        font-size: 24px;
+        text-align: center;
+        margin-top: 20px;
+        margin-bottom: 20px;
+      }
+
+      form {
+        margin: 0 auto;
+        width: 500px;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 5px;
+        box-shadow: 0px 0px 5px #ccc;
+      }
+
+      label {
+        font-weight: bold;
+        margin-top: 10px;
+        margin-bottom: 5px;
+      }
+
+      input[type=text], select {
+        width: 100%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        display: inline-block;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+      }
+
+      input[type=submit] {
+        background-color: #4CAF50;
+        color: white;
+        padding: 14px 20px;
+        margin: 8px 0;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+
+      input[type=submit]:hover {
+        background-color: #45a049;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Wallet</h1>
+    <div class="row">
+      <div class="col-md-6">
+        <form action="{{ url_for('wallet') }}" method="post">
+          <!-- form fields for updating budget -->
+          <div class="text-center"><h2>Expenses</h2></div>
+          <input type="hidden" name="action" value="update_budget">
+          <div class="form-group">
+            <label for="category">Category:</label>
+            <select class="form-control" id="category" name="category" required>
+              <option value="">Select a category</option>
+              <option value="FOOD">FOOD</option>
+              <option value="BILLS">BILLS</option>
+              <option value="SHOPPING">SHOPPING</option>
+              <option value="RENT">RENT</option>
+              <option value="EDUCATION">EDUCATION</option>
+              <option value="ENTERTAINMENT">ENTERTAINMENT</option>
+              <option value="HEALTH">HEALTH</option>
+              <option value="GIFTS">GIFTS</option>
+              <option value="INVESTMENTS">INVESTMENTS</option>
+              <option value="TRAVEL">TRAVEL</option>
+              <option value="OTHERS">OTHERS</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="spentamount">Spent Amount:</label>
+            <input type="text" class="form-control" id="spentamount" name="spentamount" placeholder="Enter spent amount" inputmode="numeric" pattern="^[0-9]+$" oninvalid="this.setCustomValidity('Please enter a valid number')" onchange="this.setCustomValidity('')" required>
+          </div>
+          <div class="form-group">
+            <label for="date">Date:</label>
+            <input type="date" class="form-control" id="date" name="date" placeholder="Select date" min="2023-01-01" max="2025-12-31" required>
+          </div>
+          <div class="form-group">
+            <label for="description">Description:</label>
+            <input type="text" class="form-control" id="description" name="description" placeholder="Enter description">
+          </div>
+          <button type="submit" class="btn btn-primary">Update Budget</button>
+        </form>
+      </div>
+      <div class="col-md-6">
+        <form action="{{ url_for('wallet') }}" method="post">
+          <!-- form fields for setting goals -->
+          <div class="text-center"><h2>Goals</h2></div>
+          <input type="hidden" name="action" value="update_goal">
+          <div class="form-group">
+            <label for="goalname">Goal Name:</label>
+            <input type="text" class="form-control" id="goalname" name="goalname" placeholder="Enter goal name" required>
+          </div>
+          <div class="form-group">
+            <label for="percentage">Percentage:</label>
+            <input type="text" class="form-control" id="percentage" name="percentage" placeholder="Enter percentage amount" inputmode="numeric" pattern="^[0-9]+$|100^$" oninvalid="this.setCustomValidity('Please enter a valid number')" onchange="this.setCustomValidity('')" required>
+          </div>
+          <div class="form-group">
+            <label for="date">Date:</label>
+            <input type="date" class="form-control" id="date" name="date" placeholder="Select date" min="2023-01-01" max="2025-12-31" required>
+          </div>
+          <button type="submit" class="btn btn-primary">Set Goals</button>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>
