@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<!-- Designined by CodingLab | www.youtube.com/codinglabyt -->
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/static/style.css">
+	<title>User Login</title>
+    <!-- Boxicons CDN Link -->
+	<script src="https://cdn.anychart.com/releases/8.0.0/js/anychart-base.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/apexcharts@3.27.3/dist/apexcharts.min.js"></script>
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/css/bootstrap.min.css" integrity="sha512-1umf/78I40dLZjJaaLm7mOoGxu0ssVWwrY55vJ2VWs+FD1lkt2ZcX09L24j3qzrAKuxH3EXOh8Vv/AJSg10JlQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+   </head>
+   <style>
+	
+	.container {
+		display: flex;
+		flex-direction: column;
+			align-items: center;
+		}
+    * {
+    box-sizing: border-box;
+  }
+
+  /* Create two equal columns that floats next to each other */
+  .column {
+    float: left;
+    width: 50%;
+    padding: 10px;
+    height: auto; /* Should be removed. Only for demonstration */
+  }
+
+  /* Clear floats after the columns */
+  .row:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+
+  /* Responsive layout - makes the two columns stack on top of each other instead of next to each other */
+  @media screen and (max-width: 400px) {
+    .column {
+      width: 80%;
+    }
+  }
+	
+	
+	</style>
+<body>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-4+hT4B4ZvTFlLy8BN8uF+x3ymqMQx3vHNEtjq1c8a1ZMgnh93NxQGKjGXWnCSz7RbKcA65VwOti6m8lI5ju5qA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.min.js" integrity="sha512-fxWhmQ2GrT8TmT0ozBc4i4kn4b/Qm8X0vUTZpyap3q0OtURtWp8AJvKscO/WWBNtRiZDPOW8XvAHJJNkpuxlOw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <div class="sidebar">
+    <div class="logo-details">
+      <span class="logo_name" style="font-size: xx-large; font-family: 'Times New Roman';">Finance Planner</span>
+    </div>
+      <ul class="nav-links">
+		<li>
+			<a href="/">
+				<i class='bx bx-home' ></i>
+				<span class="links_name">Home</span>
+			</a>
+		</li>
+        <li>
+          <a href="{{ url_for('account') }}">
+            <i class='bx bx-box' ></i>
+            <span class="links_name">Account Details</span>
+          </a>
+        </li>
+		<li>
+			<a href="{{ url_for('wallet') }}">
+			  <i class='bx bx-wallet' ></i>
+			  <span class="links_name">Wallet</span>
+			</a>
+		  </li>
+        <li>
+          <a href="{{ url_for('investment') }}">
+            <i class='bx bx-pie-chart-alt-2' ></i>
+            <span class="links_name">Investement</span>
+          </a>
+        </li>
+        <li>
+          <a href="{{url_for('learning')}}">
+            <i class='bx bx-book-alt' ></i>
+            <span class="links_name">Learning</span>
+          </a>
+        </li>
+  </div>
+  <section class="home-section">
+    <div class="row">
+      <div class="column" style="background-color:#e0dddd;">
+        <h2>Investment plans</h2>
+        <p>
+            Financial products known as investment plans enable you to generate wealth gradually by offering returns that can be utilized to achieve your financial aspirations and desires.
+        </p>
+        <h2>Factors to consider while choosing investment plans</h2>
+        <h3>1.Financial goals and time period</h3>
+        <p>
+            To select the appropriate investment plan, it's important to consider your financial objectives and the duration for which you intend to invest. Your objectives can range from short-term goals such as buying a car or taking a trip, to long-term goals such as purchasing a home or securing a comfortable retirement. The investment plan that is most suitable for you will depend on the time frame of your goals. For instance, a ULIP may be a suitable choice if your objectives are long-term, such as planning for your child's education or marriage, as well as your own retirement and other distant financial objectives.
+        </p>
+        <h3>2. Planned future expense</h2>
+        <p>
+            Investment plans can be helpful in achieving your financial goals, whether they are short-term or long-term. These goals can include funding your child's education or marriage, purchasing a house, or starting a business. By identifying your future expenses and needs, you can choose the appropriate investment plan to help you achieve these goals.
+        </p>
+        <h3>3. Present expenses</h3>
+        <p>
+            Apart from your future goals, you may want to maintain your current lifestyle or improve your standard of living in the future. For this, you may want to invest in a plan that provides you with a regular income immediately.
+        </p>
+        <h3>Types of investment plans in India</h3>
+        <ul>Below are some of the investment plans available in India:</ul>
+        <li>Unit Linked Insurance Plans (ULIPs)</li>
+        <li>Savings/endowment plans</li>
+        <li>Retirement plans</li>
+        <li>Public Provident Funds (PPF)</li>
+        <li>Tax-saving fixed deposits</li>
+        <h3>Retirement plans</h3>
+        <p>
+            Retirement plans help you stay financially independent during your retirement. These plans are primarily of two types:
+            Retirement savings plans - These plans help you save for your retirement. They help you contribute regularly during your earning years and provide you with a large amount at the time of your retirement. You can consider investing in a retirement savings plan if you want to start saving for your retirement in your early years
+            Retirement annuity plans - These plans provide you with a guaranteed^ regular income during your retirement in exchange for a lump sum investment. You can choose to receive the income immediately or at a later age. You can consider investing in a retirement annuity plan if you are in your 50s and nearing retirement
+        </p>
+        <h3>Public Provident Fund (PPF)</h3>
+        <p>
+            PPF is also a retirement investment option that offers high returns at minimal risk. A PPF can help you systematically invest small amounts for big goals. It is a low-risk investment plan that you can consider for long-term goals, such as retirement. You can invest up to ₹ 1.5 lakh every year. A PPF can be opened in a bank or post office by all Indian citizens. It offers tax2 benefits under the Income Tax Act, 1961.
+        </p>
+        <h3>Tax Saving Fixed Deposit (FD)</h3>
+        <p>
+            A tax-saving fixed deposit is an investment plan in India that lets you save a fixed amount decided at the time of the purchase of the plan. The investment in tax-savings fixed deposits will be for a pre-decided duration when the plan is purchased. These FDs offer tax2 benefits under Section 80C of up to ₹ 1.5 lakh per annum.
+        </p>
+      </div>
+      <div class="column" style="background-color:#d6d2d2;">
+        <h2>Search</h2>
+        <p>
+          Use this search bar to know anything realted to Investement wolrd !!
+        </p>
+        <p>
+    
+        </p>
+        <form onsubmit="return search()">
+          <input type="text" id="searchQuery" placeholder="Enter search query...">
+          <button type="submit">Search</button>
+        </form>
+    
+        <h3>Screener:</h3>
+        <a href="https://www.screener.in/">Screener</a>
+        <p>
+            Screener provides data of listed companies in India. Use it to find new stock ideas. You can screen companies based on parameters like PE ratio, ROCE, 10 years growth, market cap and sectors.
+        </p>
+        
+      </div>
+    </div>
+  </section>
+  <!-- <script></script> -->
+</body>
+<script>
+  function search() {
+  var query = document.getElementById('searchQuery').value;
+  window.open('https://www.youtube.com/results?search_query=' + query, '_blank');
+  return false;
+  }
+</script>
+</html>
