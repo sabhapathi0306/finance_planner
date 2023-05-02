@@ -27,9 +27,14 @@ These features have been designed with the aim of making the finance planner web
         
 ```mermaid
 graph TD;
-    User_interface(Dashboard)-->Falsk(Backend);
-    User_interface(Dashboard)-->Database(PostgreSQL);
-    User_interface(Dashboard)-->Web_application_hosting(Render);
-    Falsk(Backend)-->Database_hosting(ElephantSQL);
+    User_interface-->Falsk_Backend;
+    User_interface-->Database_PostgreSQL;
+    User_interface-->Render_hosting;
+    User_interface-->html,css,js;
+    Falsk_Backend-->python;
+    Database_PostgreSQL-->Database_hosting(ElephantSQL);
 
 ```
+
+### Step by Step guide to run this file in local
+
