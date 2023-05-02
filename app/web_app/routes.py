@@ -22,39 +22,34 @@ def home():
     Information is obj refrence for Details
     class which is imported from details.py
     """
-    try:
-        if 'loggedin' in session and session['loggedin']:
-            username=session['username']
-            email = session.get('email', None)
-            get_data, status = information.get_details(email)
-            if not status:
-                render_template('index.html')
-            get_data['email'] = session['email']
-            expenses = information.get_expenses(session['email'])
-            tax_details = information.get_tax_details(session['email'])
-            goal_details = information.get_goals(session['email'])
-            get_credit_details = information.get_credit_details(session['email'])
-            save_details = information.save_amount_details(session['email'])
-            if len(expenses)==0:
-                expenses = list('None')
-            details = {
-                'account_details': get_data,
-                'expenses': expenses,
-                'tax_details':tax_details,
-                'goal_details':goal_details,
-                'credit_details':get_credit_details,
-                'save_details': save_details
-            }
-            return render_template('index.html', logged_in=username,
-                                username=username, details=details)
-        else:
-            return render_template('index.html')
+    if 'loggedin' in session and session['loggedin']:
+        username=session['username']
+        email = session.get('email', None)
+        get_data, status = information.get_details(email)
+        if not status:
+            render_template('index.html')
+        get_data['email'] = session['email']
+        expenses = information.get_expenses(session['email'])
+        tax_details = information.get_tax_details(session['email'])
+        goal_details = information.get_goals(session['email'])
+        get_credit_details = information.get_credit_details(session['email'])
+        save_details = information.save_amount_details(session['email'])
+        if len(expenses)==0:
+            expenses = list('None')
+        details = {
+            'account_details': get_data,
+            'expenses': expenses,
+            'tax_details':tax_details,
+            'goal_details':goal_details,
+            'credit_details':get_credit_details,
+            'save_details': save_details
+        }
+        return render_template('index.html', logged_in=username,
+                            username=username, details=details)
+    else:
+        return render_template('index.html')
         
-    except Exception:
-        message = 'Something went wrong please try again !!'
-        return render_template('index.html' , message=message)
-
-
+     
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     """
