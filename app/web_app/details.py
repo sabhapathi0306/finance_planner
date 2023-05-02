@@ -70,6 +70,9 @@ class Details:
                 status_dict_tup= ('status', 'password')
                 details_dict.update(status_dict)
                 return details_dict, True
+            else:
+                return {}, True
+            
         except Exception:
             return {},False
         
