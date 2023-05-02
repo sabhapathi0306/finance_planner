@@ -37,11 +37,12 @@ graph TD;
 ```
 
 ### Step by Step guide to run this file in local
- 1.Clone the repo "git clone this repo ssh link"
- 2.Run the setup.py
- 3.move into finance_planner dir (cd finance_planner)
- 4.source virtual env (source proj_venv/bin/activate)
- 5.source build.sh
- 6.Run this command (python3 -m app.app)
- 7.one localhost link will poped up in terminal click on that link.
+
+ 1.Clone the repo "git clone this repo ssh link"                                                                                                        
+ 2.Run the setup.py                                                                                                                        
+ 3.move into finance_planner dir (cd finance_planner)                                                                                                
+ 4.source virtual env (source proj_venv/bin/activate)                                                                                                 
+ 5.source build.sh                                                                                                                             
+ 6.Run this command (python3 -m app.app)                                                                                                         
+ 7.one localhost link will poped up in terminal click on that link.                                                                               
 
