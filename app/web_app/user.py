@@ -130,8 +130,8 @@ class User:
                 columns.append('name')
             if 'totalincome' in data:
                 total_income = data['totalincome']
-                tax_details_new,_ = new_regime(float(total_income))
-                tax_details_old,_ = old_regime(float(total_income))
+                tax_details_new,_ = new_regime(float(total_income))/12
+                tax_details_old,_ = old_regime(float(total_income))/12
                 income = float(total_income) - tax_details_new
                 query_value.append(total_income)
                 query_value.append(tax_details_new)
