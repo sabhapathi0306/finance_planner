@@ -1,60 +1,169 @@
 <!DOCTYPE html>
-<html>
-<head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<style>
-* {
-  box-sizing: border-box;
-}
-
-/* Create two equal columns that floats next to each other */
-.column {
-  float: left;
-  width: 50%;
-  padding: 10px;
-  height: 300px; /* Should be removed. Only for demonstration */
-}
-
-/* Clear floats after the columns */
-.row:after {
-  content: "";
-  display: table;
-  clear: both;
-}
-
-/* Responsive layout - makes the two columns stack on top of each other instead of next to each other */
-@media screen and (max-width: 600px) {
-  .column {
-    width: 100%;
+<!-- Designined by CodingLab | www.youtube.com/codinglabyt -->
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/static/style.css">
+	<title>User Login</title>
+    <!-- Boxicons CDN Link -->
+	<script src="https://cdn.anychart.com/releases/8.0.0/js/anychart-base.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/apexcharts@3.27.3/dist/apexcharts.min.js"></script>
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/css/bootstrap.min.css" integrity="sha512-1umf/78I40dLZjJaaLm7mOoGxu0ssVWwrY55vJ2VWs+FD1lkt2ZcX09L24j3qzrAKuxH3EXOh8Vv/AJSg10JlQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+   </head>
+   <style>
+	
+	.container {
+		display: flex;
+		flex-direction: column;
+			align-items: center;
+		}
+    * {
+    box-sizing: border-box;
   }
-}
-</style>
-</head>
+
+  /* Create two equal columns that floats next to each other */
+  .column {
+    float: left;
+    width: 50%;
+    padding: 10px;
+    height: auto; /* Should be removed. Only for demonstration */
+  }
+
+  /* Clear floats after the columns */
+  .row:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+
+  /* Responsive layout - makes the two columns stack on top of each other instead of next to each other */
+  @media screen and (max-width: 400px) {
+    .column {
+      width: 80%;
+    }
+  }
+	
+	
+	</style>
 <body>
-
-<h2>Responsive Two Column Layout</h2>
-<p>Resize the browser window to see the responsive effect (the columns will stack on top of each other instead of floating next to each other, when the screen is less than 600px wide).</p>
-
-<div class="row">
-  <div class="column" style="background-color:#aaa;">
-    <h2>Finance Basics</h2>
-    <h3>https://vikaspedia.in/social-welfare/financial-inclusion/financial-literacy/finance-basics</h3>
-    <p>Some text..</p>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-4+hT4B4ZvTFlLy8BN8uF+x3ymqMQx3vHNEtjq1c8a1ZMgnh93NxQGKjGXWnCSz7RbKcA65VwOti6m8lI5ju5qA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.min.js" integrity="sha512-fxWhmQ2GrT8TmT0ozBc4i4kn4b/Qm8X0vUTZpyap3q0OtURtWp8AJvKscO/WWBNtRiZDPOW8XvAHJJNkpuxlOw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <div class="sidebar">
+    <div class="logo-details">
+      <span class="logo_name" style="font-size: xx-large; font-family: 'Times New Roman';">Finance Planner</span>
+    </div>
+      <ul class="nav-links">
+		<li>
+			<a href="/">
+				<i class='bx bx-home' ></i>
+				<span class="links_name">Home</span>
+			</a>
+		</li>
+        <li>
+          <a href="{{ url_for('account') }}">
+            <i class='bx bx-box' ></i>
+            <span class="links_name">Account Details</span>
+          </a>
+        </li>
+		<li>
+			<a href="{{ url_for('wallet') }}">
+			  <i class='bx bx-wallet' ></i>
+			  <span class="links_name">Wallet</span>
+			</a>
+		  </li>
+        <li>
+          <a href="{{ url_for('investment') }}">
+            <i class='bx bx-pie-chart-alt-2' ></i>
+            <span class="links_name">Investement</span>
+          </a>
+        </li>
+        <li>
+          <a href="{{url_for('learning')}}">
+            <i class='bx bx-book-alt' ></i>
+            <span class="links_name">Learning</span>
+          </a>
+        </li>
   </div>
-  <div class="column" style="background-color:#bbb;">
-    <h2>Search</h2>
-    <form onsubmit="return search()">
-      <input type="text" id="searchQuery" placeholder="Enter search query...">
-      <button type="submit">Search</button>
-    </form>
-  </div>
-</div>
+  <section class="home-section">
+    <div class="row">
+      <div class="column" style="background-color:#eeecec;">
+        <h2>Finance Basics</h2>
+        <p>
+          The financial world of today is considerably more complex than it was a generation ago. In the past, having a basic understanding of how to maintain a checking and savings account at a local bank or savings institution was sufficient for most financial transactions. However, today's consumers need to be knowledgeable about a wide range of financial products and services, as well as the providers of those products and services. This includes a deeper understanding of credit, such as the impact of compound interest and the consequences of mismanaging credit accounts.
+        </p>
+        <p>
+          There is a growing need to raise consumer awareness about the importance of financial literacy and how it can be accessed. Financial literacy is not just for investors but is equally important, if not more so, for average families trying to manage their budgets, save for their children's education, and plan for retirement.
+        </p>
+        <p>
+          It is crucial to understand the financial literacy needs of consumers at different stages in their lives and how financial literacy programs can be designed to meet those needs effectively. These programs should focus on imparting knowledge about the risks and returns of financial products to both users and providers of those products, helping to contain risks and maintain stability in the financial system. Essential financial concepts that should be included in such programs are bank accounts, online and mobile banking, debit and credit cards, cheques, PAN cards, ATM awareness, loans, investments, insurance, and taxes.
+        </p>
+    
+        <h3>Loans</h3>
+    
+        <p>
+          When you apply for a loan, your financial soundness is a crucial factor that the banks consider. Various factors that determine your loan eligibility include your repayment capacity, age, income, source of income, credit score, educational qualification, and supporting documents submitted along with your loan application.
+        </p>
+        <p>
+          Loans are available in various forms such as home loans, home improvement loans, car loans, two-wheeler loans, educational loans, wedding loans, business loans, loans against security, personal loans, and NRI loans. The interest on loans can be calculated on a daily, monthly, quarterly, or annual basis, and the outstanding principal loan amount at the end of each term is considered for interest rate calculation.
+        </p>
+        <p>
+          Loans can be classified into secured and unsecured categories and can be based on a fixed or floating interest rate. Secured loans require you to pledge your home or valuable assets as collateral, while unsecured loans do not have such requirements. Unsecured loans are suitable for short-term monetary needs, while secured loans can be taken for longer periods. The loan amount available under the unsecured category is limited, while the loan amount in the case of secured loans can reach significant proportions depending on the value of your home or other assets. You can also take loans against securities or any other valuable asset that the bank is willing to accept.
+        </p>
+        <h3>Equated Monthly Instalments (EMI)</h3>
+        <p>
+          EMI stands for “Equated Monthly Instalments”. When you take a loan, the amount to be repaid every month is calculated in such a way that all your outstanding dues are cleared at the end of the loan period. This monthly payment that includes interest as well as the principal amount is called an EMI. Loan repayment is generally made with the help of Post Dated Cheques or through Electronic Clearance System (ECS) that is directly linked to your bank account. In case of Electronic Clearance System, repayment is deducted automatically from your bank account on an agreed date. Loans are available in the Indian market for a period starting from 6 months to 25 years. The exact duration depends upon which loan plan you have chosen, and it generally varies from bank to bank.
+        </p>
+        <h3>Investments</h3>
+        <p>
+          Apart from having a savings account, putting money into stocks and mutual funds can be beneficial in terms of saving for the future. Although stocks and mutual funds have the potential to provide higher returns than regular savings accounts, their value can also decrease depending on the prevailing market conditions. Therefore, it is essential to conduct proper research and gain a thorough understanding of the potential risks involved before investing.
+        </p>
+        <h3>Stocks</h3>
+        <p>
+          Investing in stocks involves purchasing partial ownership of a corporation, giving you a percentage of the company's profits and the ability to vote on company decisions. Dividends are profits distributed among shareholders on a quarterly basis. Stocks can be traded on the open market and their value can fluctuate, potentially leading to gains or losses. It is important to note that investing in stocks requires knowledge of market trends and potential risks. Seeking guidance from a brokerage firm or an experienced advisor can be helpful in making informed investment decisions.
+        </p>
+        <h3>Mutual Funds</h3>
+        <p>
+          A mutual fund is a portfolio of investments that is managed by a professional investment advisor. It is made up of stocks, bonds and other investments, and is owned “mutually” by many investors. When you buy shares, the fund uses the money to purchase stocks, bonds and other investments. The profits are returned to the shareholders monthly, quarterly or semi-annually in the form of dividends. The advantage of mutual funds over individual stocks is that small investors can benefit from the advice of a professional account manager who distributes the investments among different companies or securities in an effort to limit losses should a certain market or industry not do as well as expected. But keep in mind that this has some of the same risks as buying stocks. Even though your investment is now “diversified” and someone is watching it for you, it still can decrease in value. Investing in stocks and mutual funds is a great way to help you save for the future, but it can be risky. Be sure that you understand how stocks and mutual funds work before you invest.
+        </p>
+    
+      </div>
+      <div class="column" style="background-color:#d6d2d2;">
+        <h2>Search</h2>
+        <p>
+          Use this search bar to know anything realted to finance wolrd !!
+        </p>
+        <form onsubmit="return search()">
+          <input type="text" id="searchQuery" placeholder="Enter search query...">
+          <button type="submit">Search</button>
+        </form>
+        <h2>Inflation</h2>
+        <p>
+          Inflation plays a significant role in assessing an individual's buying capacity. It is a metric that results in an increase in prices of goods and services over time, impacting personal finances and influencing buying decisions.
+        </p>
+        <p>
+          To better comprehend inflation, imagine you purchased a set of household necessities for INR 1,000 just last month. However, this month, the price of one of the items on the list has increased, resulting in a cost of INR 1,100 for the same set. This means that you may have to either remove an item from your shopping cart or spend more on the inflated item, thereby affecting your budget for the month.
+        </p>
+        <p>
+          Inflation occurs when the prices of goods and services in the market increase, which can cause instability in consumption. This can be caused by various factors, and economists believe that moderate inflation can drive consumption and foster growth in the economy. However, high levels of inflation can be indicative of serious economic problems, and low inflation or deflation can also be concerning. Maintaining a stable inflation rate is essential for a healthy economy.
+        </p>
+        <h2>How to Calculate Inflation Rate In India?</h2>
+        <p>
+          In India, inflation is measured through two indices — the consumer price index (CPI) and the wholesale price index (WPI). These indices help the government and the Reserve Bank of India (RBI) keep track of the changes in the prices of goods and services and make decisions accordingly. The CPI measures the retail inflation of goods and services across 260 commodities, taking into account the change in prices at which consumers purchase goods. The data is collected by the Ministry of Statistics and Program Implementation and the Ministry of Labour. On the other hand, the WPI measures the inflation of goods across 697 commodities and considers the change in prices at which consumers buy goods at a wholesale price or in bulk from factories, mandis, and other sources.
+        </p>
+        <h4>For More information you go through some of videos using search bar or through any social informatic sites</h4>
+      </div>
+    </div>
+  </section>
+  <!-- <script></script> -->
 </body>
 <script>
   function search() {
-    var query = document.getElementById('searchQuery').value;
-    window.location.href = 'https://www.youtube.com/results?search_query=' + query;
-    return false;
+  var query = document.getElementById('searchQuery').value;
+  window.open('https://www.youtube.com/results?search_query=' + query, '_blank');
+  return false;
   }
 </script>
 </html>

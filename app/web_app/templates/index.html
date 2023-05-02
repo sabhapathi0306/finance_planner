@@ -98,7 +98,7 @@
 			align-items: top;
 			justify-content: center;
 			width: 600px;
-			height: 300px;
+			height: 350px;
 			background: #fff;
 			padding: 20px;
 			border-radius: 12px;
@@ -244,15 +244,13 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
    </head>
 <body>
-	
-	
-	 <!-- Bootstrap JS -->
-	<!-- Bootstrap JS -->
+	{% if message %}
+	   alert(message)
+	{% endif %}
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-4+hT4B4ZvTFlLy8BN8uF+x3ymqMQx3vHNEtjq1c8a1ZMgnh93NxQGKjGXWnCSz7RbKcA65VwOti6m8lI5ju5qA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.min.js" integrity="sha512-fxWhmQ2GrT8TmT0ozBc4i4kn4b/Qm8X0vUTZpyap3q0OtURtWp8AJvKscO/WWBNtRiZDPOW8XvAHJJNkpuxlOw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <div class="sidebar">
     <div class="logo-details">
-      <!-- <i class='bx bxl-c-plus-plus'></i> -->
       <span class="logo_name" style="font-size: xx-large; font-family: 'Times New Roman';">Finance Planner</span>
     </div>
       <ul class="nav-links">
@@ -264,20 +262,14 @@
         </li>
 		<li>
 			<a href="{{ url_for('wallet') }}">
-			  <i class='bx bx-box' ></i>
+			  <i class='bx bx-wallet' ></i>
 			  <span class="links_name">Wallet</span>
 			</a>
 		  </li>
         <li>
-          <a href="#">
+          <a href="{{ url_for('investment') }}">
             <i class='bx bx-pie-chart-alt-2' ></i>
             <span class="links_name">Investement</span>
-          </a>
-        </li>
-        <li>
-          <a href="#">
-            <i class='bx bx-coin-stack' ></i>
-            <span class="links_name">Other Insights</span>
           </a>
         </li>
         <li>
@@ -301,11 +293,19 @@
 		</div>
 		<div class="profile-details">
 			{% if logged_in %}
-			  <span class="username">{{ username }}</span>
-			  <a href="{{ url_for('logout') }}">Logout</a>
+			  <div class="username-container" style="margin: 0 10px;">
+				<span class="username">{{ username }}</span>
+			  </div>
+			  <div class="logout-container" style="margin: 0 10px;">
+				<a href="{{ url_for('logout') }}">Logout</a>
+			  </div>
 			{% else %}
-			  <a href="{{ url_for('registration') }}">Register</a>
-			  <a href="{{ url_for('login') }}">Login</a>
+			  <div class="register-container" style="margin: 0 10px;">
+				<a href="{{ url_for('registration') }}">Register</a>
+			  </div>
+			  <div class="login-container" style="margin: 0 10px;">
+				<a href="{{ url_for('login') }}">Login</a>
+			  </div>
 			{% endif %}
 		</div>
 	</nav>
@@ -325,7 +325,7 @@
 			<div class="right-side">
 				<div class="box-topic">Expenses</div>
 				{% if logged_in %}
-				<div class="number">{{ details.expenses[-1]['remaining'] }}</div>
+				<div class="number">{{ details.expenses[-1]['expenses'] }}</div>
 				{% else %}
 				<div class="number">0</div>
 				{% endif %}
@@ -360,25 +360,26 @@
 			{%  if logged_in %}
 			<div class="report-topic-heading" style="display: flex; position: relative; align-content: center;">
 			  <h3 class="t-op">Email <span>:{{details.account_details.email}}</span></h3>
-			  <h3 class="t-op">First name <span>: {{details.account_details.first_name}}</span></h3>
-			  <h3 class="t-op">last name <span>: {{details.account_details.last_name}}</span></h3>
+			  <h3 class="t-op">Name <span>: {{details.account_details.name}}</span></h3>
 			  <h3 class="t-op">Status <span>: {{details.account_details.status}}</span></h3>
 			  <h3 class="t-op">Planned type <span>: {{details.account_details.planned_type}}</span></h3>
 			  <h3 class="t-op">Total Income <span>: {{details.account_details.total_income}}</span></h3>
+			  <h3 class="t-op">Income after tax <span>: {{details.tax_details.tax_after_amount_new}}</span></h3>
+			  <h3 class="t-op">Remaining <span>: {{details.expenses[-1]['remaining']}}</span></h3>
 			</div>
 			{% else %}
 			<div class="report-topic-heading" style="display: flex; position: relative; justify-content: center;">
 				<h3 class="t-op">Email <span>: </span></h3>
-				<h3 class="t-op">First name <span>: </span></h3>
-				<h3 class="t-op">last name <span>: </span></h3>
+				<h3 class="t-op">Name <span>: </span></h3>
 				<h3 class="t-op">Status <span>: </span></h3>
 				<h3 class="t-op">Planned type <span>: </span></h3>
 				<h3 class="t-op">Total Income <span>: </span></h3>
+				<h3 class="t-op">Income after tax <span>: </span></h3>
+				<h3 class="t-op">Remaining <span>: </span>: </h3>
 			</div>
 			{% endif %}
-			<!-- <a href="{{url_for('account')}}">Update account details</a> -->
-
 		  </div>
+		  
 		</div>
 		<div class="expensee-overview box">
 			<div class="bar-content">
@@ -450,23 +451,19 @@
 			<table class="goal-table">
 				<thead>
 					<tr>
-						<th>Goal Name</th>
-						<th>Percentage</th>
-						<th>Total Amount</th>
-						<th>Check</th>
+						<th>Goal</th>
+						<th>Amount</th>
+						<th>date</th>
+						<th>status</th>
 					</tr>
 				</thead>
 				{% if logged_in %}
 				<tbody>
-					{% for val in details.expenses %}
+					{% for val in details.goal_details %}
 					<tr>
-						<td>{{ val.goal_name }}</td>
-						<td>{{ val.percentage }}</td>
-						<td>{{ val.total_amount }}</td>
-						<td>
-							<input type="checkbox" id="myCheck" onclick="myFunction()">
-							<p id="text" style="display:none">Reached!</p>
-						</td>
+						<td>{{ val.goal_description }}</td>
+						<td>{{ val.amount }}</td>
+						<td>{{ val.date }}</td>
 					</tr>
 					{% endfor %}
 				</tbody>
@@ -510,7 +507,7 @@
 				<div>
 				<button class = insight-button onclick="showResults('button1')">Spendings</button>
 				<button class = insight-button onclick="showResults('button2')">Savings</button>
-				<button class = insight-button onclick="showResults('button3')">Calculator</button>
+				<button class = insight-button onclick="showResults('button3')">Credit Details</button>
 				</div>
 				<div class="button-result" id="button1" style="display:none; width: 100%; height: 100%;">
 					{% set data = [] %}
@@ -551,12 +548,68 @@
 					{% endif %}
 				  </div>
 				<div class="button-result" id="button2" style="display:none;">
-				<h3>Results for Button 2</h3>
-				<p>This is the content for Button 2.</p>
+					{% set data_plot = [] %}
+					{% if logged_in %}
+					{% for save in details.save_details %}
+					{% set month = save['month'] %}
+					{% set save_amount = save['save_amount'] %}
+					{% if save_amount and month %}
+					{% set row = [month, save_amount] %}
+					{% set _ = data_plot.append(row) %}
+					{% endif %}
+					{% endfor %}
+					<div id="line-container" style="width: 100%; height: 260px;"></div>
+					<script>
+						
+					anychart.onDocumentReady(function() {
+						// var chart = anychart.line(data);
+						var data = {{ data_plot | tojson }};
+						chart = anychart.line();
+						var series = chart.line(data);
+
+						chart.title("Monthly Savings");
+						chart.xAxis().title("Month");
+						chart.yAxis().title("Amount");
+						chart.yGrid(true);
+						chart.container("line-container");
+						chart.draw();
+					});
+					</script>
+					{% else %}
+					  <a href="{{ url_for('login') }}">Please login!!</a>
+					{% endif %}
 				</div>
 				<div class="button-result" id="button3" style="display:none;">
-				<h3>Results for Button 3</h3>
-				<p>This is the content for Button 3.</p>
+				<div class="credit-content" style="width: 100%; height: 100%;">
+					<a class="insert-icon" href="{{ url_for('wallet') }}">+</a>
+					<table class="goal-table">
+						<thead>
+							<tr>
+								<th>Credit card</th>
+								<th>Amount</th>
+								<th>Due amount</th>
+								<th>Paid amount</th>
+								<th>Date</th>
+							</tr>
+						</thead>
+						{% if logged_in %}
+						<tbody>
+							{% for val in details.credit_details %}
+							<tr>
+								<td>{{ val.credit_card }}</td>
+								<td>{{ val.credited_amount }}</td>
+								<td>{{ val.due_amount }}</td>
+								<td>{{ val.paid_amount }}</td>
+								<td>{{ val.month }}</td>
+							</tr>
+							{% endfor %}
+						</tbody>
+						{% else %}
+						<h5>Please Login!!</h5>
+						</tbody>
+						{% endif %}
+					</table>
+				</div>
 				</div>
 			</div>
 		</div>
@@ -571,35 +624,33 @@
 				<h5>Old Tax Regime Information</h5>
 				{% if logged_in %}
 				<div style="display: block; position: relative; font-size: medium; margin-top: 20px; text-align: left;">
-					<ul style="margin-top: 10px; padding: 0; list-style: none; font-weight: bold;">
-					  <li>Income Before tax: </li>
-					  <li>Income after tax: </li>
-					  <li>Tax Salb: </li>
-					  <li>Tax amount: </li>
-					</ul>
-					<a href="#" style="margin-bottom: 25px;">More Details!</a>
-					<p>Click on above link to know more about tax Exceptions and more...</P>
+					<div class="content-container" style="width:100%;height: 100%;">
+						<h3 class="t-op" style="font-size: large;">Income Before tax <span style="font-weight: lighter;">:{{details.account_details.total_income}}</span></h3>
+						<h3 class="t-op" style="font-size: large;">Income after tax <span style="font-weight: lighter;">:{{details.tax_details.tax_after_amount_new}}</span></h3>
+						<h3 class="t-op" style="font-size: large;">Tax Salb <span style="font-weight: lighter;">:{{details.tax_details.new_percentage}}</span></h3>
+						<h3 class="t-op" style="font-size: large;">Tax amount <span style="font-weight: lighter;">:{{details.tax_details.tax_after_amount_new}}</span></h3>
+						<a href="https://incometaxindia.gov.in/pages/tools/income-tax-calculator.aspx" style="margin-bottom: 25px;">More Details!</a>
+					</div>
 				</div>
 				{% endif %}
 				</div>
-
 				<div id="new-tax-info" style="display:none;">
 				<h5>New Tax Regime Information</h5>
 				{% if logged_in %}
 				<div style="display: block; position: relative; font-size: medium; margin-top: 20px; text-align: left;">
-					<ul style="margin-top: 10px; padding: 0; list-style: none; font-weight: bold;">
-					  <li>Income Before tax: </li>
-					  <li>Income after tax: </li>
-					  <li>Tax Salb: </li>
-					  <li>Tax amount: </li>
-					</ul>
-					<a href="#" style="margin-bottom: 25px;">More Details!</a>
-					<p>Click on above link to know more about tax Exceptions and more...</P>
+					<div class="content-container" style="width:100%;height: 100%;">
+						<div class="content-container" style="width:100%;height: 100%;">
+							<h3 class="t-op" style="font-size: large;">Income Before tax <span style="font-weight: lighter;">:{{details.account_details.total_income}}</span></h3>
+							<h3 class="t-op" style="font-size: large;">Income after tax <span style="font-weight: lighter;">:{{details.tax_details.tax_after_amount_old}}</span></h3>
+							<h3 class="t-op" style="font-size: large;">Tax Salb <span style="font-weight: lighter;">:{{details.tax_details.old_percentage}}</span></h3>
+							<h3 class="t-op" style="font-size: large;">Tax amount <span style="font-weight: lighter;">:{{details.tax_details.tax_after_amount_old}}</span></h3>
+							<a href="https://incometaxindia.gov.in/pages/tools/income-tax-calculator.aspx" style="margin-bottom: 25px;">More Details!</a>
+						</div>
+					</div>
 				</div>
 				{% endif %}
 				</div>
 				</div>
-
 			</div>
 		</div>
 	</div>
@@ -607,12 +658,15 @@
   <!-- <script></script> -->
 </body>
 <script>
-	function myFunction() {
-	  var checkBox = document.getElementById("myCheck");
-	  var text = document.getElementById("text");
-	  if (checkBox.checked == true){
-		text.style.display = "none";
-	  }
+	let sidebar = document.querySelector(".sidebar");
+	let sidebarBtn = document.querySelector(".sidebarBtn");
+	sidebarBtn.onclick = function() {
+	sidebar.classList.toggle("active");
+	if (sidebar.classList.contains("active")) {
+		sidebarBtn.classList.replace("bx-menu" ,"bx-menu-alt-right");
+	} else {
+		sidebarBtn.classList.replace("bx-menu-alt-right", "bx-menu");
+	}
 	}
 	function showResults(id) {
 	const divs = document.querySelectorAll('[id^="button"]');

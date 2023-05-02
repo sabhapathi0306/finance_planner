@@ -1,33 +1,110 @@
-<html>
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>User Login Form</title>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
-</head>
-<body>	
-<div class="container">
-    <nav>
-        <ul>
-            <li><a href="/">Home</a></li>
-        </ul>
-    </nav>
-	<h2>User Login</h2>
-	<form action="{{ url_for('login') }}" method="post">
-	    {% if message %}
-			<div class="message">{{ message }}</div>
-		{% endif %}
-		<div class="form-group">
-			<label for="email">Email:</label>
-			<input type="email" class="form-control" id="email" name="email" placeholder="Enter email" name="email" required  autocomplete="off">
+<!DOCTYPE html>
+<!-- Designined by CodingLab | www.youtube.com/codinglabyt -->
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/static/style.css">
+	<title>User Login</title>
+    <!-- Boxicons CDN Link -->
+	<script src="https://cdn.anychart.com/releases/8.0.0/js/anychart-base.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/apexcharts@3.27.3/dist/apexcharts.min.js"></script>
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/css/bootstrap.min.css" integrity="sha512-1umf/78I40dLZjJaaLm7mOoGxu0ssVWwrY55vJ2VWs+FD1lkt2ZcX09L24j3qzrAKuxH3EXOh8Vv/AJSg10JlQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+   </head>
+   <style>
+	
+	.container {
+		display: flex;
+		flex-direction: column;
+			align-items: center;
+		}
+	
+	
+	</style>
+<body>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-4+hT4B4ZvTFlLy8BN8uF+x3ymqMQx3vHNEtjq1c8a1ZMgnh93NxQGKjGXWnCSz7RbKcA65VwOti6m8lI5ju5qA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.min.js" integrity="sha512-fxWhmQ2GrT8TmT0ozBc4i4kn4b/Qm8X0vUTZpyap3q0OtURtWp8AJvKscO/WWBNtRiZDPOW8XvAHJJNkpuxlOw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <div class="sidebar">
+    <div class="logo-details">
+      <span class="logo_name" style="font-size: xx-large; font-family: 'Times New Roman';">Finance Planner</span>
+    </div>
+      <ul class="nav-links">
+		<li>
+			<a href="/">
+				<i class='bx bx-home' ></i>
+				<span class="links_name">Home</span>
+			</a>
+		</li>
+        <li>
+          <a href="{{ url_for('account') }}">
+            <i class='bx bx-box' ></i>
+            <span class="links_name">Account Details</span>
+          </a>
+        </li>
+		<li>
+			<a href="{{ url_for('wallet') }}">
+			  <i class='bx bx-wallet' ></i>
+			  <span class="links_name">Wallet</span>
+			</a>
+		  </li>
+        <li>
+          <a href="{{ url_for('investment') }}">
+            <i class='bx bx-pie-chart-alt-2' ></i>
+            <span class="links_name">Investement</span>
+          </a>
+        </li>
+        <li>
+          <a href="{{url_for('learning')}}">
+            <i class='bx bx-book-alt' ></i>
+            <span class="links_name">Learning</span>
+          </a>
+        </li>
+  </div>
+  <section class="home-section">
+	{% if message %}
+        <script>alert("{{ message }}");</script>
+    {% endif %}
+	<nav>
+		<div class="sidebar-button">
+			<i class='bx bx-menu sidebarBtn'></i>
+			<span class="dashboard">Menu</span>
 		</div>
-		<div class="form-group">
-			<label for="pwd">Password:</label>
-			<input type="password" class="form-control" id="password" name="password" placeholder="Enter password" name="pswd" required autocomplete="off">
-		</div>    
-		<button type="submit" class="btn btn-primary">Login</button>
-		<p class="bottom">Dont't have an account?  <a class="bottom" href="{{url_for('registration')}}"> Register here</a></p>
-	</form>
-</div>
+	</nav>
+	<div class="container">
+		<div>
+			<h3 style="margin-top: 100px;">Login Details</h3>
+		</div>
+		<form action="{{ url_for('login') }}" method="post" style="margin-top: 50px;">
+			{% if message %}
+				<div class="message">{{ message }}</div>
+			{% endif %}
+			<div class="form-group">
+				<label for="email">Email:</label>
+				<input type="email" class="form-control" id="email" name="email" placeholder="Enter email" name="email" required  autocomplete="off">
+			</div>
+			<div class="form-group">
+				<label for="pwd">Password:</label>
+				<input type="password" class="form-control" id="password" name="password" placeholder="Enter password" name="pswd" required autocomplete="off">
+			</div>    
+			<button type="submit" class="btn btn-primary">Login</button>
+			<p class="bottom">Dont't have an account?  <a class="bottom" href="{{url_for('registration')}}"> Register here</a></p>
+		</form>
+	</div>
+  </section>
+  <!-- <script></script> -->
 </body>
+<script>
+	let sidebar = document.querySelector(".sidebar");
+	let sidebarBtn = document.querySelector(".sidebarBtn");
+	sidebarBtn.onclick = function() {
+	sidebar.classList.toggle("active");
+	if (sidebar.classList.contains("active")) {
+		sidebarBtn.classList.replace("bx-menu" ,"bx-menu-alt-right");
+	} else {
+		sidebarBtn.classList.replace("bx-menu-alt-right", "bx-menu");
+	}
+	}
+</script>
 </html>
