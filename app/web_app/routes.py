@@ -12,6 +12,7 @@ app.secret_key = '0987654321fyndproject'
 
 information = Details()
 
+
 @app.route('/')
 def home():
     """
@@ -50,6 +51,7 @@ def home():
             message=message
         )
     else:
+        message=''
         if 'message' in session:
             message = session['message']
         return render_template('index.html', message=message)

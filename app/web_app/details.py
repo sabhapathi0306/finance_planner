@@ -111,7 +111,7 @@ class Details:
             return lis
         
         except Exception as exp_err:
-            loggers.setup_logger.error(exp_err)
+            LOGGER.error(exp_err)
             return []
     
     

@@ -67,7 +67,6 @@ class User:
                 else False
             )
         except Exception as exp_err:
-            raise
             LOGGER.error(exp_err)
             return False
         
