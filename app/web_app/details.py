@@ -41,7 +41,7 @@ class Details:
     
     def __init__(self):
         self.db_connection, self.db_cursor = Details.__db_connection()
-        
+
 
     def __convert_to_unique(self, string):
         """
@@ -62,12 +62,22 @@ class Details:
             __unique_value  = self.__convert_to_unique(email)
             self.db_cursor.execute(GET_DEATILS, (__unique_value,))
             val_tup = self.db_cursor.fetchone()
-            coum_tup = ('name', 'total_income', 'budgeted_income', 'save', 'planned_type', 'month')
+            coum_tup = (
+                'name', 'total_income',
+                'budgeted_income', 'save',
+                'planned_type', 'month', 
+                'new_tax'
+            )
             if val_tup is not None:
                 details_dict = {coum_tup[i]: val_tup[i] for i in range(len(val_tup))}
                 self.db_cursor.execute(GET_STATUS, (__unique_value, ))
                 status_val_tup = self.db_cursor.fetchone()
                 status_dict_tup= ('status', 'password')
+                for val in status_val_tup:
+                    status_dict = {
+                        status_dict_tup[0]: val[0],
+                        status_dict_tup[1]: val[1]
+                    }
                 details_dict.update(status_dict)
                 return details_dict, True
             else:
@@ -119,13 +129,21 @@ class Details:
             result   = float(val_tup)
             new_regime_ans, new_percentage= new_regime(result)
             old_regime_ans, old_percentage= old_regime(result)
-            return {
+            years_income_projected = result*12 
+            tax_after_amount_new = years_income_projected-new_regime_ans
+            tax_after_amount_old = years_income_projected-old_regime_ans
+            tax_amount_new = years_income_projected-tax_after_amount_new
+            tax_amount_old = years_income_projected-tax_after_amount_old
+            return{
                 'old_total': old_regime_ans,
                 'old_percentage': new_percentage,
                 'new_total': new_regime_ans,
                 'new_percentage': old_percentage,
-                'tax_after_amount_new': result - new_regime_ans,
-                'tax_after_amount_old': result - old_regime_ans,
+                'tax_after_amount_new': tax_after_amount_new,
+                'tax_after_amount_old': tax_after_amount_old,
+                'total_income_per_year': years_income_projected,
+                'tax_amount_new': tax_amount_new,
+                'tax_amount_old': tax_amount_old
             }
         except Exception as exp_err:
             LOGGER.error(exp_err)

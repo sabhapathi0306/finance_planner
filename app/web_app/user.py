@@ -8,8 +8,8 @@ from app.web_app.common_utils import (
     SELECT_USER_TABLE, SELECT_USER_EMAIL,
     check_for_special_char,
     USER_INFO_INSERT, contains_only_digits,
-    INSERT_GOALS, new_regime,
-    old_regime
+    new_regime, old_regime,
+    GET_MONTH_DETAILS
 )
 from dotenv import load_dotenv,find_dotenv
 from app.web_app.utils import loggers
@@ -67,47 +67,51 @@ class User:
                 else False
             )
         except Exception as exp_err:
+            raise
             LOGGER.error(exp_err)
             return False
         
     
     def register(self, data):
         """Registration"""
-        data = json.loads(data)
-        username = data.get('username', None)
-        email = data.get('email', None)
-        password = data.get('password', None)
-        if username is None or email is None:
-            return 'ALL FEILDS ARE REQUIRED !!'
-        password_len = len(password)
-        if password_len < 8:
-            return '''PLEASE PROVIDE PASSWORD LIKE THIS
-                password length should be >= 8 and must one capital,
-                small, numerical and special character.
-                Example: Ramnath!234
-                '''
-        if check_for_special_char(password):
-            self.db_cursor.execute(SELECT_USER_EMAIL)
-            emails_tup = self.db_cursor.fetchall()
-            emails = [val[0] for val in emails_tup]
-            if email in emails:
-                self.db_cursor.close()
-                return 'EMAIL ALREADY USED!!'
-            else:
-                unique_value = self.__convert_to_unique(email)
-                status = 'ACTIVE'
-                Date = datetime.datetime.now()
-                self.db_cursor.execute(USER_INFO_INSERT, (email, password, username, status, unique_value, Date))
-                # self.db_cursor.execute(ACCOUNT_INFO_INSERT, (email, unique_value))
-                self.db_connection.commit()
-                return 'SUCCESSFULLY REGISTERED!!'
+        try:
+            data = json.loads(data)
+            username = data.get('username', None)
+            email = data.get('email', None)
+            password = data.get('password', None)
+            if username is None or email is None:
+                return 'ALL FEILDS ARE REQUIRED !!'
+            password_len = len(password)
+            if password_len < 8:
+                return '''PLEASE PROVIDE PASSWORD LIKE THIS
+                    password length should be >= 8 and must one capital,
+                    small, numerical and special character.
+                    Example: Ramnath!234
+                    '''
+            if check_for_special_char(password):
+                self.db_cursor.execute(SELECT_USER_EMAIL)
+                emails_tup = self.db_cursor.fetchall()
+                emails = [val[0] for val in emails_tup]
+                if email in emails:
+                    self.db_cursor.close()
+                    return 'EMAIL ALREADY USED!!'
+                else:
+                    unique_value = self.__convert_to_unique(email)
+                    status = 'ACTIVE'
+                    Date = datetime.datetime.now()
+                    self.db_cursor.execute(USER_INFO_INSERT, (email, password, username, status, unique_value, Date))
+                    # self.db_cursor.execute(ACCOUNT_INFO_INSERT, (email, unique_value))
+                    self.db_connection.commit()
+                    return 'SUCCESSFULLY REGISTERED!!'
 
-        else:
-            return '''PLEASE PROVIDE PASSWORD LIKE THIS
-                password length should be >= 8 and must one capital,
-                small, numerical and special character.
-                Example: Ramnath!234
-                ''' 
+            else:
+                return '''PLEASE PROVIDE PASSWORD LIKE THIS
+                    password length should be >= 8 and must one capital,
+                    small, numerical and special character.
+                    Example: Ramnath!234
+                    ''' 
+        except Exception as exp_err:
+            LOGGER.error(exp_err)
 
 
     def update_details(self, data):
@@ -130,12 +134,10 @@ class User:
                 columns.append('name')
             if 'totalincome' in data:
                 total_income = data['totalincome']
-                tax_details_new,_ = new_regime(float(total_income))/12
-                tax_details_old,_ = old_regime(float(total_income))/12
-                income = float(total_income) - tax_details_new
-                query_value.append(total_income)
-                query_value.append(tax_details_new)
-                query_value.append(tax_details_old)
+                tax_details_new,_ = new_regime(float(total_income))
+                tax_details_old,_ = old_regime(float(total_income))
+                income = float(total_income) - (tax_details_new/12)
+                query_value.extend((total_income, tax_details_new, tax_details_old))
                 columns.append('total_income')
                 columns.append('new_tax')
                 columns.append('old_tax')
@@ -145,63 +147,44 @@ class User:
                 columns.append('needs')
                 query_value.append(needs_amount)
                 planning += data['needs']+ "+"
-            else:
-                message = "needs not proper passed"
-
             if 'wants' in data and contains_only_digits(data['wants']):
                 wants_value = float(data['wants'])/100
                 wants_amount = wants_value*float(income)
                 columns.append('wants')
                 query_value.append(wants_amount)
                 planning += data['wants'] + "+"
-            else:
-                message = "wants not proper passed"
-
             if 'save' in data and contains_only_digits(data['save']):
                 save_value = float(data['save'])/100
-                save_amount = save_value*float(income)
+                save_amount = round(save_value*float(income),2)
                 columns.append('save')
                 query_value.append(save_amount)
                 planning += data['save']
-            else:
-                message = "save_or_goals not proper passed"
-            
             __fixes_point = 1
             __check_plan_point = needs_value+wants_value+save_value
             if __check_plan_point > __fixes_point:
-                message = f"""
-                Provided plane [{__check_plan_point}] is greater than 100 % 
-                So keeping Default value for user accout 
-                and you can coustomize it anytime!!
-                """
                 planning = "50"+"30"+"20"
                 needs_amount = 0.5 * float(data['totalincome'])
                 wants_amount = 0.3 * float(data['totalincome'])
                 save_amount = 0.2 *  float(data['totalincome'])
             query_value.append(planning)
             columns.append('planned_type')
-            budgeted_incomed = needs_amount+wants_amount
+            budgeted_incomed = round(needs_amount+wants_amount,2)
             query_value.append(budgeted_incomed)
             columns.append('budgeted_income')
             if len(columns) != len(query_value):
                 return False
-            
-            get_month_details = "select month,unique_value from account_details where unique_value=%s"
-            self.db_cursor.execute(get_month_details,(__unique_value,))
+            self.db_cursor.execute(GET_MONTH_DETAILS, (__unique_value,))
             month_value = self.db_cursor.fetchall()
             month_list = [val[0] for val in month_value]
             unique_list = [val[1] for val in month_value]
-            if 'month' not in data:
-                month = datetime.datetime.now().strftime('%Y-%m')
-            else:
-                month = data['month']
-                
+            month = data.get('month')
             if month in month_list and __unique_value in unique_list:
                 query_value.append(month)
                 query_value.append(__unique_value)
                 tup = tuple(query_value)
                 UPDATE_ACCOUNT = f"""UPDATE account_details SET
-                {','.join([f'{col}= %s' for col in columns])} WHERE month = %s and unique_value=%s"""
+                {','.join([f'{col}= %s' for col in columns])}
+                WHERE month = %s and unique_value=%s"""
                 self.db_cursor.execute(UPDATE_ACCOUNT, tup)
                 self.db_connection.commit()
             else:
@@ -218,7 +201,7 @@ class User:
                 self.db_cursor.execute(INSERT_ACCOUNT)
                 self.db_connection.commit()
             return True
-        
+
         except Exception as exp_err:
             LOGGER.error(exp_err)
             return False

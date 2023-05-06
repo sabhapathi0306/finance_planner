@@ -12,7 +12,6 @@ app.secret_key = '0987654321fyndproject'
 
 information = Details()
 
-
 @app.route('/')
 def home():
     """
@@ -44,10 +43,16 @@ def home():
             'credit_details':get_credit_details,
             'save_details': save_details
         }
-        return render_template('index.html', logged_in=username,
-                            username=username, details=details)
+        message = session['message']
+        return render_template(
+            'index.html', logged_in=username,
+            username=username, details=details,
+            message=message
+        )
     else:
-        return render_template('index.html')
+        if 'message' in session:
+            message = session['message']
+        return render_template('index.html', message=message)
         
      
 @app.route('/login', methods=['GET', 'POST'])
@@ -67,7 +72,8 @@ def login():
             session['loggedin'] = True
             session['email'] = email
             session['username'] = username
-            message = f"Login is Successfull {username}. Please Update account details!"        
+            message = f"Login is Successfull {username}. Please Update account details!" 
+            session['message'] = message
             return redirect('/')
         else:
             message = "Please pass correct credintials!!"
@@ -95,9 +101,11 @@ def registration():
         data = json.dumps({'username': username, 'password': password, 'email': email})
         if run_app.register(data):
             message = "Registration is Successfull. Please Login!"
+            session['message'] = message
             return redirect('/login')
         else:
             message = "Something went wrong please try again !!"
+            session['message'] = message
             return redirect('/registration')
     
     else:
@@ -117,6 +125,7 @@ def logout():
     session.pop('username', None)
     # Redirect to login page
     message='logout successfully !!'
+    session['message'] = message
     return redirect('/')
 
 
@@ -138,6 +147,8 @@ def account():
             message  = "Account updated successfully!!"
         else:
             message = 'Something went wrong try again !!'
+        
+        session['message'] = message
         return redirect('/')
     return render_template('account.html')
 
@@ -163,9 +174,8 @@ def wallet():
         form_data['email'] = session['email']
         data = json.dumps(form_data)
         if wallet_details.add_expenses(data):
-            message = 'Expenses added successfully!!'
+            session['message'] = 'Expenses added successfully!!'
             return redirect('/')
-        message = 'Something went wrong try again'
     elif action == 'update_credit':
         form_data = dict(request.form.items())
         form_data['email'] = session['email']
@@ -179,10 +189,9 @@ def wallet():
         # process the goal update here
         data = json.dumps(form_data)
         if wallet_details.goal_calculator(data):
-            message = 'Goal added successfully!!'
+            session['message'] = 'Goal added successfully!!'
             return redirect('/')
-        message = 'Something went wrong try again'
-    return render_template('wallet.html', message=message)
+    return render_template('wallet.html')
 
 
 @app.route('/learning')

@@ -34,6 +34,7 @@ UPDATE_BUDGET_LOG = "UPDATE budget_log SET remaining = %s, expenses = %s WHERE u
 INSERT_INTO_BUDGET_LOG = """INSERT INTO budget_log(unique_value, date, category, spent_amount, description, remaining, expenses) values (
                 %s, %s, %s, %s, %s, %s, %s);"""
 SAVE_AMOUNT_INFO = """select save,month from account_details where unique_value=%s"""
+GET_MONTH_DETAILS = """select month,unique_value from account_details where unique_value=%s"""
 
 #--------------------------Goals--------------------------------#
 GET_GOAL_DETAILS = """select id,goal_description, amount, date from goals where unique_value=%s;"""
